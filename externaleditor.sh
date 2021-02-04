@@ -84,11 +84,10 @@ if xdotool windowfocus "${windowid}" 2>/dev/null; then # only if the original wi
     if [[ "$(xclip -o)" == "_!ExternalEditorIsEditingThis!_"* ]]; then # only if the clipboard content starts with the check string
 	xclip -i -selection c < "${tmpfile}" # copy file to clipboard
 	xdotool key ctrl+v # insert clipboard into window
-	xdotool key Prior # scroll up
-	xdotool key Prior # scroll up
-	xdotool key Prior # scroll up
-	xdotool key Prior # scroll up
-	xdotool key Prior # scroll up
+	## "scroll up" for any length of the text:
+	xdotool key ctrl+a # so that the "Up" key goes before all text
+	xdotool key Up # this implies a "scroll up"
+	xdotool key Prior # scroll up (if there is margin between e.g. window and text)
 	xdotool windowactivate "${windowid}" # raise window
 	[ -f "${tmpfile}" ] && rm "${tmpfilef}" # remove temporary file
     else
