@@ -31,6 +31,10 @@ when the script is run, and later checks if it can still find this
 check string. If it does not, or the original window does not exist
 anymore, a short and informative popup message is displayed.
 
+Only pure text is copied and pasted, i.e. formatting is
+lost. Therefore, it might not be a good idea to use this script for
+formatted Text (like e.g. HTML).
+
 I started writing this script because the [External Editor plugin for
 thunderbird](https://github.com/exteditor/exteditor/) no longer worked
 with newer versions of thunderbird.
