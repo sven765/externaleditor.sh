@@ -31,6 +31,16 @@ externaleditor="emacsclient" # This assumes that Emacs is running as a server (s
 # ".txt"). (This may or may not be important to you.)
 emailclientwindowtitle="Thunderbird"
 
+# Set this to "html" if you compose HTML messages in Thunderbird in
+# order to preserve line breaks. However, be aware that HTML
+# formatting is lost when using this script! Unfortunately, this
+# script is not able to detect the format used in thunderbird, so
+# there is no good solution for being able to compose both text and
+# HTML messages without changing this configuration. (You could use
+# two instances of this script with two different keyboad shortcuts to
+# invoke them though.)
+tbformat="txt"
+
 # End of configuration. The script is annotated to make it easier to
 # adapt it.
 
@@ -83,7 +93,11 @@ if xdotool windowfocus "${windowid}" 2>/dev/null; then # only if the original wi
     xdotool key ctrl+c # copy selection to clipboard for the following check
     if [[ "$(xclip -o)" == "_!ExternalEditorIsEditingThis!_"* ]]; then # only if the clipboard content starts with the check string
 	xclip -i -selection c < "${tmpfile}" # copy file to clipboard
-	xdotool key ctrl+v # insert clipboard into window
+	if [[ "${windowname}" == *"Thunderbird"* && "${tbformat}" == "html" ]]; then
+	    xdotool key ctrl+shift+v # insert clipboard into window
+	else
+	    xdotool key ctrl+v # insert clipboard into window
+	fi
 	## "scroll up" for any length of the text:
 	xdotool key ctrl+a # so that the "Up" key goes before all text
 	xdotool key Up # this implies a "scroll up"
