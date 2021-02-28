@@ -18,9 +18,9 @@ Set the following variables in a file called externaleditor.conf in
 the same directory as this script! (You can also define them as
 environmental variables, e.g. in ~/.profile.) You can copy from the
 following examples and uncomment (remove the "#" at the beginning of
-the line).
+the line.
 
-Variable "externaleditor": The external editor you want to
+**Variable "externaleditor"**: The external editor you want to
 use. Examples:
 
 ```
@@ -30,7 +30,7 @@ externaleditor="gnome-terminal -- vim" # if you want to use vim inside a gnome-t
 externaleditor="emacs" # if you want to open a new Emacs instance
 ```
 
-Variable "emailclientwindowtitle": A character string which is part of
+**Variable "emailclientwindowtitle"**: A character string which is part of
 the window title of your email client. If this string is found in the
 window title, the file that is send to the external editor gets the
 extension ".eml" (otherwise ".txt"). (This may or may not be important
@@ -40,7 +40,7 @@ to you.) If the variable is not set, "Thunderbird" is used. Example:
 emailclientwindowtitle="Thunderbird"
 ```
 
-Variable "tbformat": Set this to "html" if you compose HTML messages
+**Variable "tbformat"**: Set this to "html" if you compose HTML messages
 in Thunderbird in order to preserve line breaks. However, be aware
 that HTML formatting is lost when using this script! Unfortunately,
 this script is not able to detect the format used in thunderbird, so
