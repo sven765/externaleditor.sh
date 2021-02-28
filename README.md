@@ -14,8 +14,45 @@ edit Thunderbird email messages in your favorite editor.
 
 ## Configuration
 
-Set the external editor you want to use and some info about your email
-client in the bash script.
+Set the following variables in a file called externaleditor.conf in
+the same directory as this script! (You can also define them as
+environmental variables, e.g. in ~/.profile.) You can copy from the
+following examples and uncomment (remove the "#" at the beginning of
+the line).
+
+Variable "externaleditor": The external editor you want to
+use. Examples:
+
+```
+externaleditor="emacsclient" # This assumes that Emacs is running as a server (see Emacs' function "server-start"). In Emacs, press C-x # when finished editing.
+externaleditor="gvim -f" # if you want to use gvim
+externaleditor="gnome-terminal -- vim" # if you want to use vim inside a gnome-terminal
+externaleditor="emacs" # if you want to open a new Emacs instance
+```
+
+Variable "emailclientwindowtitle": A character string which is part of
+the window title of your email client. If this string is found in the
+window title, the file that is send to the external editor gets the
+extension ".eml" (otherwise ".txt"). (This may or may not be important
+to you.) If the variable is not set, "Thunderbird" is used. Example:
+
+```
+emailclientwindowtitle="Thunderbird"
+```
+
+Variable "tbformat": Set this to "html" if you compose HTML messages
+in Thunderbird in order to preserve line breaks. However, be aware
+that HTML formatting is lost when using this script! Unfortunately,
+this script is not able to detect the format used in thunderbird, so
+there is no good solution for being able to compose both text and HTML
+messages without changing this configuration. (You could use two
+instances of this script with two different keyboad shortcuts to
+invoke them though.) If the variable is not set, "txt" is
+used. Example:
+
+```
+tbformat="txt"
+```
 
 ## Note
 
@@ -43,6 +80,9 @@ with newer versions of thunderbird.
 
 Thanks to [@ebardie](https://github.com/ebardie) for [several
 improvements](https://github.com/exteditor/exteditor/issues/74#issuecomment-765333628)!
+
+Thanks to [@dbeniamine](https://github.com/dbeniamine) for suggesting
+to separate the configuration from the script!
 
 ## Copyright and license
 

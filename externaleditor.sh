@@ -6,8 +6,7 @@
 
 # Copyright (c) 2020-2021 Sven Hartenstein
 # This script is released under the MIT License.
-# It's home is https://github.com/sven765/externaleditor.sh
-
+# Its home is https://github.com/sven765/externaleditor.sh
 
 # Requirements:
 # - X server must be running.
@@ -17,45 +16,57 @@
 #   That is, you need to configure a keyboard shortcut in your window
 #   manager.
 
+
 # Configuration:
 
-# The external editor you want to use.
-externaleditor="emacsclient" # This assumes that Emacs is running as a server (see Emacs' function "server-start"). In Emacs, press C-x # when finished editing.
-# externaleditor="gvim -f" # if you want to use gvim
-# externaleditor="gnome-terminal -- vim" # if you want to use vim inside a gnome-terminal
-# externaleditor="emacs" # if you want to open a new Emacs instance
+# Set the following variables in a file called externaleditor.conf in
+# the same directory as this script! (You can also define them as
+# environmental variables, e.g. in ~/.profile. It is recommended to
+# not define the variables in this script so that configuration is not
+# lost when you update it.) You can copy from the following examples
+# and uncomment (remove the "#" at the beginning of the line).
 
-# A character string which is part of the window title of your email
-# client. If this string is found in the window title, the file that
-# is send to the external editor gets the extension ".eml" (otherwise
-# ".txt"). (This may or may not be important to you.)
-emailclientwindowtitle="Thunderbird"
+# Variable "externaleditor": The external editor you want to
+# use. Examples:
+#externaleditor="emacsclient" # This assumes that Emacs is running as a server (see Emacs' function "server-start"). In Emacs, press C-x # when finished editing.
+#externaleditor="gvim -f" # if you want to use gvim
+#externaleditor="gnome-terminal -- vim" # if you want to use vim inside a gnome-terminal
+#externaleditor="emacs" # if you want to open a new Emacs instance
 
-# Set this to "html" if you compose HTML messages in Thunderbird in
-# order to preserve line breaks. However, be aware that HTML
-# formatting is lost when using this script! Unfortunately, this
-# script is not able to detect the format used in thunderbird, so
+# Variable "emailclientwindowtitle": A character string which is part
+# of the window title of your email client. If this string is found in
+# the window title, the file that is send to the external editor gets
+# the extension ".eml" (otherwise ".txt"). (This may or may not be
+# important to you.) If the variable is not set, "Thunderbird" is
+# used. Example:
+#emailclientwindowtitle="Thunderbird"
+
+# Variable "tbformat": Set this to "html" if you compose HTML messages
+# in Thunderbird in order to preserve line breaks. However, be aware
+# that HTML formatting is lost when using this script! Unfortunately,
+# this script is not able to detect the format used in thunderbird, so
 # there is no good solution for being able to compose both text and
 # HTML messages without changing this configuration. (You could use
 # two instances of this script with two different keyboad shortcuts to
-# invoke them though.)
-tbformat="txt"
+# invoke them though.) If the variable is not set, "txt" is
+# used. Example:
+#tbformat="txt"
 
-# End of configuration. The script is annotated to make it easier to
-# adapt it.
 
-# Note: This script is rather simple and stupid, using "select all",
-# "copy", and "paste" by "pressing" keyboard shortcuts
-# programmatically. This is not immune to errors. For example, if you
-# send the body of an email message to the external editor and put the
-# cursor into the "To" field of the email client before finishing the
-# edit, the script can not find the message body and should surely not
-# paste the edited text into the "To" field. As a small measure
-# against such problems, this scripts inserts a check string into the
-# application window which is active when the script is run, and later
-# checks if it can still find this check string. If it does not, or
-# the original window does not exist anymore, a short and informative
-# popup message is displayed.
+# Note:
+
+# This script is rather simple and stupid, using "select all", "copy",
+# and "paste" by "pressing" keyboard shortcuts programmatically. This
+# is not immune to errors. For example, if you send the body of an
+# email message to the external editor and put the cursor into the
+# "To" field of the email client before finishing the edit, the script
+# can not find the message body and should surely not paste the edited
+# text into the "To" field. As a small measure against such problems,
+# this scripts inserts a check string into the application window
+# which is active when the script is run, and later checks if it can
+# still find this check string. If it does not, or the original window
+# does not exist anymore, a short and informative popup message is
+# displayed.
 
 
 ## Check for dependencies
@@ -69,6 +80,22 @@ for dep in "${deps[@]}"; do
 done
 if [ "1" == "${depsaremissing}" ]; then
     exit 1
+fi
+
+## Load configuration file if it exists and check for and set
+## configuration variables.
+if [ -f "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/externaleditor.conf" ]; then
+    source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/externaleditor.conf"
+fi
+if [ -z "$externaleditor" ]; then
+    echo -e "Oops! The variable externaleditor is not defined.\nPlease read the configuration section at the top\nof this script." | xmessage -buttons Okay:0 -default Okay -center -file - # inform the user
+    exit 1
+fi
+if [ -z "$emailclientwindowtitle" ]; then
+    emailclientwindowtitle="Thunderbird"
+fi
+if [ -z "$tbformat" ]; then
+    tbformat="txt"
 fi
 
 windowid=$(xdotool getactivewindow) # get ID of active window
