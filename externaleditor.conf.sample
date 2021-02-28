@@ -1,0 +1,33 @@
+# A sample configuration for externaleditor.sh. Configuration should
+# be set in a file named externaleditor.conf in the same directory as
+# the script.
+
+# Copyright (c) 2020-2021 Sven Hartenstein
+# This script is released under the MIT License.
+# Its home is https://github.com/sven765/externaleditor.sh
+
+
+# Variable "externaleditor": The external editor you want to use.
+externaleditor="emacsclient" # This assumes that Emacs is running as a server (see Emacs' function "server-start"). In Emacs, press C-x # when finished editing.
+#externaleditor="gvim -f" # if you want to use gvim
+#externaleditor="gnome-terminal -- vim" # if you want to use vim inside a gnome-terminal
+#externaleditor="emacs" # if you want to open a new Emacs instance
+
+# Variable "emailclientwindowtitle": A character string which is part
+# of the window title of your email client. If this string is found in
+# the window title, the file that is send to the external editor gets
+# the extension ".eml" (otherwise ".txt"). (This may or may not be
+# important to you.) If the variable is not set, "Thunderbird" is
+# used.
+emailclientwindowtitle="Thunderbird"
+
+# Variable "tbformat": Set this to "html" if you compose HTML messages
+# in Thunderbird in order to preserve line breaks. However, be aware
+# that HTML formatting is lost when using this script! Unfortunately,
+# this script is not able to detect the format used in thunderbird, so
+# there is no good solution for being able to compose both text and
+# HTML messages without changing this configuration. (You could use
+# two instances of this script with two different keyboad shortcuts to
+# invoke them though.) If the variable is not set, "txt" is
+# used.
+tbformat="txt"
