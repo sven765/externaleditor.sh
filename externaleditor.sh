@@ -111,7 +111,7 @@ sleep 0.6 # wait and hope that the key press is finished before continuing
 xclip -i /dev/null # clear clipboard to prevent pasting the previous contents in the case where there's no source data to copy
 xdotool key ctrl+a # select all
 xdotool key ctrl+c # copy selection to clipboard
-xdotool key Up # place cursor at beginning of text
+xdotool key Left # place cursor at beginning of text
 xdotool type -delay 0 "_!ExternalEditorIsEditingThis!_" # write into window for later check
 xclip -o > "${tmpfile}" # write clipboard to temporary file
 ${externaleditor} "${tmpfile}" # open file in editor (and wait until finished)
